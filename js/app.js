@@ -23,7 +23,7 @@ Enemy.prototype.update = function(dt) {
     // all computers.
 
     // Update enemies location and check if it is going out of canvas.
-    this.x === 505 ? this.x = 0 : this.x = (dt * speed);
+    this.x === 505 ? this.x = 0 : this.x += (dt * speed);
 };
 
 // Draw the enemy on the screen, required method for game
