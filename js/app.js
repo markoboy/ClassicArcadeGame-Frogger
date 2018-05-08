@@ -23,7 +23,7 @@ Enemy.prototype.update = function(dt) {
     // all computers.
 
     // Update enemies location and check if it is going out of canvas.
-    this.x === 505 ? this.x = 0 : this.x += (dt * speed);
+    this.x >= 505 ? this.x = -101 : this.x += (dt * this.speed);
 };
 
 // Draw the enemy on the screen, required method for game
@@ -44,7 +44,7 @@ const Player = function(x, y) {
 }
 
 Player.prototype.update = function(dt) {
-    
+
 }
 
 Player.prototype.render = function() {
@@ -58,7 +58,31 @@ Player.prototype.handleInput = function() {
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
+const allEnemies = [];
 
+// Create 3 new enemies in each row.
+(function() {
+    let enemyY = -18,
+        startingX = 0,
+        speed = 101;
+    for (let x = 3; x > 0; x--) {
+        let newEnemy = new Enemy(startingX, enemyY += 83, (Math.random() * (4-1) + 1) * speed);
+
+        switch (x) {
+            case 3:
+                startingX = 504;
+                speed *= -1;
+                break;
+            case 2:
+                startingX = 0;
+                speed *= -1;
+        }
+
+        allEnemies.push(newEnemy);
+    }
+})();
+
+player = new Player(202, 321);
 
 
 // This listens for key presses and sends the keys to your
