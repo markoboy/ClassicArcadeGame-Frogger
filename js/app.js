@@ -5,7 +5,7 @@ var Enemy = function(x, y, speed) {
 
     // The image/sprite for our enemies, this uses
     // a helper we've provided to easily load images
-    this.sprite = 'images/enemy-bug.png';
+    speed > 0 ? this.sprite = 'images/enemy-bug.png' : this.sprite = 'images/enemy-bug-flip.png';
 
     // Set the initial location of the enemies;
     this.x = x;
@@ -23,7 +23,11 @@ Enemy.prototype.update = function(dt) {
     // all computers.
 
     // Update enemies location and check if it is going out of canvas.
-    this.x >= 505 ? this.x = -101 : this.x += (dt * this.speed);
+    if (this.speed > 0) {
+        this.x > 505 ? this.x = -101 : this.x += (dt * this.speed);
+    } else {
+        this.x < -101 ? this.x = 505 : this.x += (dt * this.speed);
+    }
 };
 
 // Draw the enemy on the screen, required method for game
