@@ -28,6 +28,23 @@ Enemy.prototype.update = function(dt) {
     } else {
         this.x < -101 ? this.x = 505 : this.x += (dt * this.speed);
     }
+
+    // Check enemies location with player location.
+    let checkY = player.y === this.y + 7;
+    let checkX = player.x < this.x + 82 && player.x + 82 > this.x;
+
+    // Check if the enemies colide with the player.
+    if (checkY && checkX) {
+        // Reduce player's lives.
+        player.lives--;
+
+        // Check if no player's lives have left.
+        if (player.lives === 0) {
+            // reset();
+        } else {
+            player.die();
+        }
+    }
 };
 
 // Draw the enemy on the screen, required method for game
@@ -47,7 +64,7 @@ const Player = function(x, y) {
     this.y = y;
 }
 
-Player.prototype.update = function(dt) {
+Player.prototype.update = function() {
 
 }
 
