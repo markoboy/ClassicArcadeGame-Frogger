@@ -57,10 +57,13 @@ const Player = function(x, y) {
 
     // Player's lives.
     this.lives = 3;
+
+    // Player's score.
+    this.score = 0;
 }
 
 Player.prototype.update = function() {
-
+    this.updateScore(1);
 }
 
 Player.prototype.render = function() {
@@ -97,6 +100,27 @@ Player.prototype.die = function() {
     } else {
         // Reset the game.
         // reset();
+    }
+}
+
+// Update player's score based on his location.
+Player.prototype.updateScore = function(amount) {
+    let timer;
+    // If player gets to the water.
+    if (this.y === -11) {
+        // Increase player's score.
+        this.score += amount;
+
+        // Return player to starting position after 0.1 seconds.
+        timer = setTimeout(() => {
+            this.x = 202;
+            this.y = 321;
+
+            clearTimeout(timer);
+        }, 100);
+
+        // Increase player's horizontal position to avoid score bug increase.
+        this.y++;
     }
 }
 
