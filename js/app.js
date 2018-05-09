@@ -31,19 +31,11 @@ Enemy.prototype.update = function(dt) {
 
     // Check enemies location with player location.
     let checkY = player.y === this.y + 7;
-    let checkX = player.x < this.x + 82 && player.x + 82 > this.x;
+    let checkX = player.x < this.x + 65 && player.x + 65 > this.x;
 
     // Check if the enemies colide with the player.
     if (checkY && checkX) {
-        // Reduce player's lives.
-        player.lives--;
-
-        // Check if no player's lives have left.
-        if (player.lives === 0) {
-            // reset();
-        } else {
-            player.die();
-        }
+        player.die();
     }
 };
 
@@ -62,6 +54,9 @@ const Player = function(x, y) {
     // Initial player's location
     this.x = x;
     this.y = y;
+
+    // Player's lives.
+    this.lives = 3;
 }
 
 Player.prototype.update = function() {
@@ -86,6 +81,22 @@ Player.prototype.handleInput = function(allowedKeyes) {
         case 'left':
             this.x < 100 ? this.x = this.x : this.x -= 101;
             break;
+    }
+}
+
+// A function to run when the player comes in collision with enemies.
+Player.prototype.die = function() {
+    // Check player's lives.
+    if (this.lives > 0) {
+        // Reduce player's lives.
+        this.lives--;
+
+        // Return player to starting position.
+        this.x = 202;
+        this.y = 321;
+    } else {
+        // Reset the game.
+        // reset();
     }
 }
 
