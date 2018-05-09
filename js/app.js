@@ -91,8 +91,9 @@ Player.prototype.handleInput = function(allowedKeyes) {
 Player.prototype.die = function() {
     // Check player's lives.
     if (this.lives > 0) {
-        // Reduce player's lives.
+        // Reduce player's lives and score.
         this.lives--;
+        this.score === 0 ? this.score = 0 : this.score--;
 
         // Return player to starting position.
         this.x = 202;
