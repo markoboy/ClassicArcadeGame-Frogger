@@ -55,11 +55,12 @@ const Player = function(x, y) {
     this.x = x;
     this.y = y;
 
-    // Player's lives.
+    // Player's lives and score.
     this.lives = 3;
-
-    // Player's score.
     this.score = 0;
+
+    // Check if the player is active.
+    this.isActive = false;
 }
 
 Player.prototype.update = function() {
@@ -112,11 +113,15 @@ Player.prototype.updateScore = function(amount) {
         // Increase player's score.
         this.score += amount;
 
+        // Stop player's movement
+        this.isActive = false;
+
         // Return player to starting position after 0.1 seconds.
         timer = setTimeout(() => {
             this.x = 202;
             this.y = 321;
 
+            this.isActive = true;
             clearTimeout(timer);
         }, 100);
 
@@ -198,5 +203,7 @@ document.addEventListener('keyup', function(e) {
         40: 'down'
     };
 
-    player.handleInput(allowedKeys[e.keyCode]);
+    // Check if player is allowed to move.
+    if (player.isActive)
+        player.handleInput(allowedKeys[e.keyCode]);
 });
