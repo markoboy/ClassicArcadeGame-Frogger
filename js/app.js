@@ -125,6 +125,38 @@ Player.prototype.updateScore = function(amount) {
     }
 }
 
+// Create a scoreboard object to handle on screen info and buttons.
+const Scoreboard = function() {
+    // Get player's score.
+    this.score = player.score.toString();
+    // Create player's lives into emoji.
+    this.lives = '';
+    this.livesSymbol = '💖'
+}
+
+Scoreboard.prototype.update = function() {
+    // Clear on screen lives.
+    this.lives = '';
+    // Add lives symbol on screen based on player's lives.
+    for (let k = player.lives; k > 0; k--) {
+        this.lives += this.livesSymbol;
+    }
+
+    // Update score on screen.
+    this.score = player.score.toString();
+}
+
+Scoreboard.prototype.render = function() {
+    // Set font to display the score into text.
+    ctx.font = 'bold 25px courier';
+    ctx.textAlign = 'start';
+    ctx.fillText(`Score: ${this.score}`, 0, 40);
+
+    // Align lives emoji to the right and display them.
+    ctx.textAlign = 'right';
+    ctx.fillText(this.lives, 505, 575);
+}
+
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
@@ -152,8 +184,9 @@ const allEnemies = [];
     }
 })();
 
-player = new Player(202, 321);
+const player = new Player(202, 321);
 
+const scoreboard = new Scoreboard();
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
