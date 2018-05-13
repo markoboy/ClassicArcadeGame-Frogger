@@ -243,6 +243,79 @@ Dialog.prototype.render = function() {
     ctx.restore();
 }
 
+// Handle input function for the dialog to handle the mouse and keyboard clicks.
+Dialog.prototype.handleInput = function(keyType, mousePos) {
+    // Check if mouse is over a button.
+    let mouseOver = this.getButtonPressed(mousePos);
+
+    // Check if a key was pressed or the mouse.
+    switch (keyType) {
+        case 'right':
+
+            break;
+        case 'left':
+
+            break;
+        case 'move':
+            // Check witch button was hovered by the mouse.
+            switch (mouseOver) {
+                case 'actionBtn':
+                    console.log('Action button hovered');
+                    break;
+                case 'leftArr':
+                    console.log('Left arrow hovered');
+                    break;
+                case 'rightArr':
+                    console.log('Right arrow hovered');
+            }
+            break;
+        case 'click':
+            // Check witch button was pressed with the mouse.
+            switch (mouseOver) {
+                case 'actionBtn':
+                    // Close the dialog and start the game.
+                    this.isActive = false;
+                    if (player.lives > 0) {
+                        player.isActive = true;
+                    } else if (player.lives <= 0) {
+                        player.lives = 3;
+                        player.score = 0;
+                        player.isActive = true;
+                    }
+                    break;
+                case 'leftArr':
+                    console.log('Left arrow pressed');
+                    break;
+                case 'rightArr':
+                    console.log('Right arrow pressed');
+            }
+            break;
+    }
+}
+
+// Check what button is pressed on the dialog.
+Dialog.prototype.getButtonPressed = function(mousePos) {
+    // Check if mouse is over the action button.
+    let actionBtn = checkCollisions(mousePos, this.btn_x, this.btn_y, 138, 33);
+
+    // Check if mouse is over the arrows.
+    let leftArrowBtn = checkCollisions(mousePos, this.l_arrow_x, this.arrow_y, 31, 31);
+    let rightArrowBtn = checkCollisions(mousePos, this.r_arrow_x, this.arrow_y, 31, 31);
+
+    // Return a string with what button was in collision with the mouse.
+    return actionBtn ? 'actionBtn' : leftArrowBtn ? 'leftArr' : rightArrowBtn ? 'rightArr' : undefined;
+}
+
+// Check if two objects have collided.
+function checkCollisions(obj1, obj2_x, obj2_y, max_x = 0, max_y = 0) {
+    // Check if the horizontal axis is the same.
+    let checkY = obj1.y - 2 > obj2_y && obj1.y < obj2_y + max_y;
+
+    // Check if the vertical axis is the same.
+    let checkX = obj1.x - 2 > obj2_x && obj1.x < obj2_x + max_x;
+    return checkX && checkY;
+}
+
 // Create getMousePos function to get the mouse location in order to make
 // clickable buttons.
 function getMousePos(canvas, evt) {
@@ -301,7 +374,8 @@ document.addEventListener('keyup', function(e) {
         player.handleInput(allowedKeys[e.keyCode]);
 
     // Check if dialog is active in order to handle keyboard shortcuts.
-    // dialog.handleInput(allowedKeyes[e.keyCode]);
+    if (dialog.isActive)
+        dialog.handleInput(allowedKeys[e.keyCode], {});
 });
 
 // This listens for mousemove over the canvas to change the
@@ -310,7 +384,8 @@ canvas.addEventListener('mousemove', function(e) {
     // Store mouse location.
     const mousePos = getMousePos(canvas, e);
 
-    // dialog.handleInput('move', mousePos);
+    if (dialog.isActive)
+        dialog.handleInput('move', mousePos);
 });
 
 // This listens for mouseclicks on the canvas buttons.
@@ -318,5 +393,6 @@ canvas.addEventListener('click', function(e) {
     // Store mouse location.
     const mousePos = getMousePos(canvas, e);
 
-    // dialog.handleInput('click', mousePos);
+    if (dialog.isActive)
+        dialog.handleInput('click', mousePos);
 });
