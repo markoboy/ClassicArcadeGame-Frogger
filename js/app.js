@@ -162,6 +162,87 @@ Scoreboard.prototype.render = function() {
     ctx.fillText(this.lives, 505, 575);
 }
 
+/* Create a dialog constractor to handle the pop-up dialog
+ * window when it displays on the beginning and the game-over
+ * screen.
+ */
+const Dialog = function(type) {
+    // Make the dialog active.
+    this.isActive = true;
+
+    // Set the screen type: starting or gameOver.
+    this.type = type;
+
+    // Set dialog's background and location.
+    this.background = 'images/background.png';
+    this.x = 0;
+    this.y = 0;
+
+    // Set current player sprite.
+    this.sprite = player.sprite;
+
+    // Set arrows and button sprites.
+    this.rightArrow = 'images/right-arrow.png';
+    this.leftArrow = 'images/left-arrow.png';
+    this.button = 'images/button.png';
+
+    // Set arrows and button location.
+    this.r_arrow_x = 315;
+    this.l_arrow_x = 150;
+    this.arrow_y = 300;
+
+    this.btn_x = 175;
+    this.btn_y = 400;
+
+    // Set buttons text and text location.
+    this.btn_text = 'Play';
+    this.btn_text_y = this.btn_y + 25;
+
+    // Set text locaction in center of canvas.
+    this.text_x = 252;
+}
+
+Dialog.prototype.render = function() {
+    // Draw dialog background.
+    ctx.drawImage(Resources.get(this.background), this.x, this.y);
+    // Draw all text in center aligment.
+    ctx.textAlign = 'center';
+
+    // Check which is the type of dialog.
+    switch (this.type) {
+        case 'starting':
+            // Draw header text.
+            ctx.fillText('Classic Arcade Game: Frogger', this.text_x, 120);
+            ctx.fillText('Please choose your character:', this.text_x, 155);
+
+            // Draw player selector.
+            ctx.drawImage(Resources.get('images/selector.png'), this.x + 202, 208);
+            ctx.drawImage(Resources.get(this.sprite), this.x + 202, 208);
+            // Draw arrows.
+            ctx.drawImage(Resources.get(this.rightArrow), this.r_arrow_x, this.arrow_y);
+            ctx.drawImage(Resources.get(this.leftArrow), this.l_arrow_x, this.arrow_y);
+            break;
+        case 'gameOver':
+            // Draw game-over title.
+            ctx.save();
+            ctx.fillStyle = 'red';
+            ctx.font = 'bold 70px courier';
+            ctx.fillText('Game Over', this.text_x, 252);
+            ctx.restore();
+
+            // Draw score accomplished.
+            ctx.fillText(`Score: ${scoreboard.score}`, this.text_x, 287);
+            break;
+    }
+
+    // Draw action button.
+    ctx.drawImage(Resources.get(this.button), this.btn_x, this.btn_y);
+    ctx.save();
+    ctx.fillStyle = 'white';
+    ctx.fillText(this.btn_text, this.text_x, this.btn_text_y);
+    ctx.restore();
+}
+
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
@@ -192,6 +273,8 @@ const allEnemies = [];
 const player = new Player(202, 321);
 
 const scoreboard = new Scoreboard();
+
+const dialog = new Dialog('starting');
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.

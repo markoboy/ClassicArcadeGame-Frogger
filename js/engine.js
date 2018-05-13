@@ -160,6 +160,10 @@ var Engine = (function(global) {
 
         // Render the scoreboard.
         scoreboard.render();
+
+        // Render the dialog box.
+        if (dialog.isActive)
+            dialog.render();
     }
 
     /* This function does nothing but it could have been a good place to
@@ -180,6 +184,11 @@ var Engine = (function(global) {
         'images/grass-block.png',
         'images/enemy-bug.png',
         'images/enemy-bug-flip.png',
+        'images/selector.png',
+        'images/background.png',
+        'images/right-arrow.png',
+        'images/left-arrow.png',
+        'images/button.png',
         'images/char-boy.png'
     ]);
     Resources.onReady(init);
