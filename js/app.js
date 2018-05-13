@@ -243,6 +243,16 @@ Dialog.prototype.render = function() {
     ctx.restore();
 }
 
+// Create getMousePos function to get the mouse location in order to make
+// clickable buttons.
+function getMousePos(canvas, evt) {
+    var rect = canvas.getBoundingClientRect();
+    return {
+        x: Math.floor(evt.clientX - rect.left),
+        y: evt.clientY - rect.top
+    }
+}
+
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
@@ -289,4 +299,24 @@ document.addEventListener('keyup', function(e) {
     // Check if player is allowed to move.
     if (player.isActive)
         player.handleInput(allowedKeys[e.keyCode]);
+
+    // Check if dialog is active in order to handle keyboard shortcuts.
+    // dialog.handleInput(allowedKeyes[e.keyCode]);
+});
+
+// This listens for mousemove over the canvas to change the
+// buttons background.
+canvas.addEventListener('mousemove', function(e) {
+    // Store mouse location.
+    const mousePos = getMousePos(canvas, e);
+
+    // dialog.handleInput('move', mousePos);
+});
+
+// This listens for mouseclicks on the canvas buttons.
+canvas.addEventListener('click', function(e) {
+    // Store mouse location.
+    const mousePos = getMousePos(canvas, e);
+
+    // dialog.handleInput('click', mousePos);
 });
