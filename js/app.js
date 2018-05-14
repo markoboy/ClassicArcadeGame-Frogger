@@ -275,6 +275,19 @@ Dialog.prototype.handleInput = function(keyType, mousePos) {
             this.index === 0 ? this.index = this.allSprites.length - 1 : this.index--;
             this.sprite = this.allSprites[this.index];
             break;
+        case 'enter':
+            // Close the dialog and start the game.
+            this.isActive = false;
+            if (player.lives > 0) {
+                player.isActive = true;
+            } else if (player.lives <= 0) {
+                player.lives = 3;
+                player.score = 0;
+                player.isActive = true;
+            }
+            // Set player's sprite to the selected one.
+            player.sprite = this.sprite;
+            break;
         case 'move':
             // Check witch button was hovered by the mouse.
             switch (mouseOver) {
@@ -391,7 +404,8 @@ document.addEventListener('keyup', function(e) {
         37: 'left',
         38: 'up',
         39: 'right',
-        40: 'down'
+        40: 'down',
+        13: 'enter'
     };
 
     // Check if player is allowed to move.
