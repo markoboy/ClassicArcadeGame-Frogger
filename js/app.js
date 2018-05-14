@@ -90,18 +90,21 @@ Player.prototype.handleInput = function(allowedKeyes) {
 
 // A function to run when the player comes in collision with enemies.
 Player.prototype.die = function() {
-    // Check player's lives.
-    if (this.lives > 0) {
-        // Reduce player's lives and score.
-        this.lives--;
-        this.score === 0 ? this.score = 0 : this.score--;
+    // Reduce player's lives and score.
+    this.lives--;
+    this.score === 0 ? this.score = 0 : this.score--;
 
-        // Return player to starting position.
-        this.x = 202;
-        this.y = 321;
-    } else {
-        // Reset the game.
-        // reset();
+    // Return player to starting position.
+    this.x = 202;
+    this.y = 321;
+
+    if (this.lives === 0) {
+        // Make player unable to move.
+        this.isActive = false;
+
+        // Show the game over screen.
+        dialog.type = 'gameOver';
+        dialog.isActive = true;
     }
 }
 
