@@ -219,7 +219,7 @@ Dialog.prototype.render = function() {
             ctx.fillText('Please choose your character:', this.text_x, 155);
 
             // Draw player selector.
-            ctx.drawImage(Resources.get('images/selector.png'), this.x + 202, 208);
+            ctx.drawImage(Resources.get('images/Selector.png'), this.x + 202, 208);
             ctx.drawImage(Resources.get(this.sprite), this.x + 202, 208);
             // Draw arrows.
             ctx.drawImage(Resources.get(this.rightArrow), this.r_arrow_x, this.arrow_y);
