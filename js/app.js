@@ -184,6 +184,18 @@ const Dialog = function(type) {
     // Set current player sprite.
     this.sprite = player.sprite;
 
+    // An array with all player's sprites.
+    this.allSprites = [
+        'images/char-boy.png',
+        'images/char-cat-girl.png',
+        'images/char-horn-girl.png',
+        'images/char-pink-girl.png',
+        'images/char-princess-girl.png'
+    ];
+
+    // Create an index for all sprites in order to loop through them.
+    this.index = 0;
+
     // Set arrows and button sprites.
     this.rightArrow = 'images/right-arrow.png';
     this.leftArrow = 'images/left-arrow.png';
@@ -254,10 +266,14 @@ Dialog.prototype.handleInput = function(keyType, mousePos) {
     // Check if a key was pressed or the mouse.
     switch (keyType) {
         case 'right':
-
+            // Change player selection sprite.
+            this.index < this.allSprites.length - 1 ? this.index++ : this.index = 0;
+            this.sprite = this.allSprites[this.index];
             break;
         case 'left':
-
+            // Change player selection sprite.
+            this.index === 0 ? this.index = this.allSprites.length - 1 : this.index--;
+            this.sprite = this.allSprites[this.index];
             break;
         case 'move':
             // Check witch button was hovered by the mouse.
@@ -285,12 +301,18 @@ Dialog.prototype.handleInput = function(keyType, mousePos) {
                         player.score = 0;
                         player.isActive = true;
                     }
+                    // Set player's sprite to the selected one.
+                    player.sprite = this.sprite;
                     break;
                 case 'leftArr':
-                    console.log('Left arrow pressed');
+                    // Change player selection sprite.
+                    this.index === 0 ? this.index = this.allSprites.length - 1 : this.index--;
+                    this.sprite = this.allSprites[this.index];
                     break;
                 case 'rightArr':
-                    console.log('Right arrow pressed');
+                    // Change player selection sprite.
+                    this.index < this.allSprites.length - 1 ? this.index++ : this.index = 0;
+                    this.sprite = this.allSprites[this.index];
             }
             break;
     }
