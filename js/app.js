@@ -269,11 +269,17 @@ Dialog.prototype.handleInput = function(keyType, mousePos) {
             // Change player selection sprite.
             this.index < this.allSprites.length - 1 ? this.index++ : this.index = 0;
             this.sprite = this.allSprites[this.index];
+            // Change arrow sprite to give focus.
+            this.rightArrow = 'images/right-arrow-hover.png';
+            setTimeout(() => this.rightArrow = 'images/right-arrow.png', 100);
             break;
         case 'left':
             // Change player selection sprite.
             this.index === 0 ? this.index = this.allSprites.length - 1 : this.index--;
             this.sprite = this.allSprites[this.index];
+            // Change arrow sprite to give focus.
+            this.leftArrow = 'images/left-arrow-hover.png';
+            setTimeout(() => this.leftArrow = 'images/left-arrow.png', 100);
             break;
         case 'enter':
             // Close the dialog and start the game.
@@ -292,13 +298,18 @@ Dialog.prototype.handleInput = function(keyType, mousePos) {
             // Check witch button was hovered by the mouse.
             switch (mouseOver) {
                 case 'actionBtn':
-                    console.log('Action button hovered');
+                    this.button = 'images/button-hover.png';
                     break;
                 case 'leftArr':
-                    console.log('Left arrow hovered');
+                    this.leftArrow = 'images/left-arrow-hover.png';
                     break;
                 case 'rightArr':
-                    console.log('Right arrow hovered');
+                    this.rightArrow = 'images/right-arrow-hover.png';
+                    break;
+                default:
+                    this.rightArrow = 'images/right-arrow.png';
+                    this.leftArrow = 'images/left-arrow.png';
+                    this.button = 'images/button.png';
             }
             break;
         case 'click':
