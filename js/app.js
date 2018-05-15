@@ -61,6 +61,9 @@ const Player = function(x, y) {
 
     // Check if the player is active.
     this.isActive = false;
+
+    // Check if player died in order to make a red screen effect.
+    this.hasDied = false;
 }
 
 Player.prototype.update = function() {
@@ -69,6 +72,16 @@ Player.prototype.update = function() {
 
 Player.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+
+    // Draw a red screen when player dies.
+    if (this.hasDied) {
+        ctx.save();
+        ctx.fillStyle = 'rgba(255, 0, 0, 0.3)';
+        ctx.fillRect(0, 50, 505, 535);
+        ctx.restore();
+        // Clear the red screen after 50ms.
+        setTimeout(() => this.hasDied = false, 50);
+    }
 }
 
 Player.prototype.handleInput = function(allowedKeyes) {
@@ -97,6 +110,9 @@ Player.prototype.die = function() {
     // Return player to starting position.
     this.x = 202;
     this.y = 321;
+
+    // Set hasDied to true in order to draw a red screen.
+    this.hasDied = true;
 
     if (this.lives === 0) {
         // Make player unable to move.
