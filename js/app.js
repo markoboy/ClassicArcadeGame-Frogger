@@ -327,6 +327,8 @@ Dialog.prototype.handleInput = function(keyType, mousePos) {
                     }
                     // Set player's sprite to the selected one.
                     player.sprite = this.sprite;
+                    // Set the buttons sprite to default.
+                    this.button = 'images/button.png';
                     break;
                 case 'leftArr':
                     // Change player selection sprite.
