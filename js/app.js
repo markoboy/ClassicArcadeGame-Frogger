@@ -39,6 +39,20 @@ Enemy.prototype.update = function(dt) {
     }
 };
 
+// Change the enemies speed and their direction.
+Enemy.prototype.changeSpeed = function() {
+    // Get a random number to change the enemies direction.
+    let changeDir = Math.floor(Math.random() * (3-1) + 1);
+
+    // If the random number was 1 the enemies have the same direction.
+    // Else their direction will change to negative.
+    // Also increase the enemies speed by 15%.
+    changeDir === 1 ? this.speed *= -1 * 1.15 : this.speed *= 1.15;
+
+    // Check if the enemies need to change their sprite.
+    this.speed > 0 ? this.sprite = 'images/enemy-bug.png' : this.sprite = 'images/enemy-bug-flip.png';
+}
+
 // Draw the enemy on the screen, required method for game
 Enemy.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
@@ -59,7 +73,7 @@ const Player = function(x, y) {
     this.lives = 3;
     this.score = 0;
 
-    // Score ammount to be added when getting to the water.
+    // Score amount to be added when getting to the water.
     this.amount = 10;
 
     // Check if the player is active.
@@ -129,13 +143,18 @@ Player.prototype.die = function() {
 }
 
 // Update player's score based on his location.
+// Also change the enemies speed and direction when the score gets high enough.
 Player.prototype.updateScore = function() {
     let timer;
     // If player gets to the water.
     if (this.y === -11) {
-        // Check when score get higher and increase the ammount.
-        if (this.score > this.amount * 8)
+        // Check when score get higher and increase the amount.
+        if (this.score > this.amount * 8) {
             this.amount += Math.floor(this.amount / 2);
+
+            // Change enemies speed and direction.
+            allEnemies.forEach(enemy => enemy.changeSpeed());
+        }
 
         // Increase player's score.
         this.score += this.amount;
@@ -319,6 +338,12 @@ Dialog.prototype.handleInput = function(keyType, mousePos) {
                 player.isActive = true;
                 player.amount = 10;
                 scoreboard.update();
+                // Change enemies speed to the normal mode.
+                allEnemies.forEach(function() {
+                    enemy.speed = (Math.random() * (3-1) + 1) * 101;
+                    // Change enemies sprite.
+                    enemy.speed > 0 ? enemy.sprite = 'images/enemy-bug.png' : enemy.sprite = 'images/enemy-bug-flip.png';
+                });
             }
             // Set player's sprite to the selected one.
             player.sprite = this.sprite;
@@ -417,7 +442,7 @@ const allEnemies = [];
         startingX = 0,
         speed = 101;
     for (let x = 3; x > 0; x--) {
-        let newEnemy = new Enemy(startingX, enemyY += 83, (Math.random() * (4-1) + 1) * speed);
+        let newEnemy = new Enemy(startingX, enemyY += 83, (Math.random() * (3-1) + 1) * speed);
 
         switch (x) {
             case 3:
