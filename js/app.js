@@ -46,8 +46,8 @@ Enemy.prototype.changeSpeed = function() {
 
     // If the random number was 1 the enemies have the same direction.
     // Else their direction will change to negative.
-    // Also increase the enemies speed by 15%.
-    changeDir === 1 ? this.speed *= -1 * 1.15 : this.speed *= 1.15;
+    // Also increase the enemies speed by 10%.
+    changeDir === 1 ? this.speed *= 1.10 : this.speed *= -1.10;
 
     // Check if the enemies need to change their sprite.
     this.speed > 0 ? this.sprite = 'images/enemy-bug.png' : this.sprite = 'images/enemy-bug-flip.png';
