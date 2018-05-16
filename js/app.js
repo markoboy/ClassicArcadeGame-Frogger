@@ -59,6 +59,9 @@ const Player = function(x, y) {
     this.lives = 3;
     this.score = 0;
 
+    // Score ammount to be added when getting to the water.
+    this.amount = 10;
+
     // Check if the player is active.
     this.isActive = false;
 
@@ -67,7 +70,7 @@ const Player = function(x, y) {
 }
 
 Player.prototype.update = function() {
-    this.updateScore(1);
+    this.updateScore();
 }
 
 Player.prototype.render = function() {
@@ -103,9 +106,10 @@ Player.prototype.handleInput = function(allowedKeyes) {
 
 // A function to run when the player comes in collision with enemies.
 Player.prototype.die = function() {
-    // Reduce player's lives and score.
+    // Reduce player's lives.
     this.lives--;
-    this.score === 0 ? this.score = 0 : this.score--;
+    // Update scoreboard.
+    scoreboard.update();
 
     // Return player to starting position.
     this.x = 202;
@@ -125,12 +129,16 @@ Player.prototype.die = function() {
 }
 
 // Update player's score based on his location.
-Player.prototype.updateScore = function(amount) {
+Player.prototype.updateScore = function() {
     let timer;
     // If player gets to the water.
     if (this.y === -11) {
+        // Check when score get higher and increase the ammount.
+        if (this.score > this.amount * 8)
+            this.amount += Math.floor(this.amount / 2);
+
         // Increase player's score.
-        this.score += amount;
+        this.score += this.amount;
 
         // Stop player's movement
         this.isActive = false;
@@ -146,6 +154,9 @@ Player.prototype.updateScore = function(amount) {
 
         // Increase player's horizontal position to avoid score bug increase.
         this.y++;
+
+        // Update scoreboard.
+        scoreboard.update();
     }
 }
 
@@ -154,7 +165,7 @@ const Scoreboard = function() {
     // Get player's score.
     this.score = player.score.toString();
     // Create player's lives into emoji.
-    this.lives = '';
+    this.lives = '💖💖💖';
     this.livesSymbol = '💖'
 }
 
@@ -306,6 +317,8 @@ Dialog.prototype.handleInput = function(keyType, mousePos) {
                 player.lives = 3;
                 player.score = 0;
                 player.isActive = true;
+                player.amount = 10;
+                scoreboard.update();
             }
             // Set player's sprite to the selected one.
             player.sprite = this.sprite;
