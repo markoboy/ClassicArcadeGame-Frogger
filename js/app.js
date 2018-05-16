@@ -149,7 +149,7 @@ Player.prototype.updateScore = function() {
     // If player gets to the water.
     if (this.y === -11) {
         // Check when score get higher and increase the amount.
-        if (this.score > this.amount * 8) {
+        if (this.score > this.amount * 4) {
             this.amount += Math.floor(this.amount / 2);
 
             // Change enemies speed and direction.
@@ -339,7 +339,7 @@ Dialog.prototype.handleInput = function(keyType, mousePos) {
                 player.amount = 10;
                 scoreboard.update();
                 // Change enemies speed to the normal mode.
-                allEnemies.forEach(function() {
+                allEnemies.forEach(function(enemy) {
                     enemy.speed = (Math.random() * (3-1) + 1) * 101;
                     // Change enemies sprite.
                     enemy.speed > 0 ? enemy.sprite = 'images/enemy-bug.png' : enemy.sprite = 'images/enemy-bug-flip.png';
