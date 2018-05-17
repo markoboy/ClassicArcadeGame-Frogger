@@ -179,6 +179,30 @@ Player.prototype.updateScore = function() {
     }
 }
 
+// This is a function to make the player start playing.
+Player.prototype.start = function() {
+    // If player has no more lives then reset player's stat before starting.
+    if (this.lives <= 0) {
+        this.lives = 3;
+        this.score = 0;
+        this.amount = 10;
+
+        // Update the scoreboard.
+        scoreboard.update();
+        // Change enemies speed to the normal mode.
+        allEnemies.forEach(function(enemy) {
+            enemy.speed = (Math.random() * (2-1) + 1) * 101;
+            // Change enemies sprite.
+            enemy.speed > 0 ? enemy.sprite = 'images/enemy-bug.png' : enemy.sprite = 'images/enemy-bug-flip.png';
+        });
+    }
+
+    // Make the player start playing.
+    this.isActive = true;
+    // Set player's sprite to the selected one.
+    this.sprite = dialog.sprite;
+}
+
 // Create a scoreboard object to handle on screen info and buttons.
 const Scoreboard = function() {
     // Get player's score.
@@ -330,23 +354,7 @@ Dialog.prototype.handleInput = function(keyType, mousePos) {
         case 'enter':
             // Close the dialog and start the game.
             this.isActive = false;
-            if (player.lives > 0) {
-                player.isActive = true;
-            } else if (player.lives <= 0) {
-                player.lives = 3;
-                player.score = 0;
-                player.isActive = true;
-                player.amount = 10;
-                scoreboard.update();
-                // Change enemies speed to the normal mode.
-                allEnemies.forEach(function(enemy) {
-                    enemy.speed = (Math.random() * (3-1) + 1) * 101;
-                    // Change enemies sprite.
-                    enemy.speed > 0 ? enemy.sprite = 'images/enemy-bug.png' : enemy.sprite = 'images/enemy-bug-flip.png';
-                });
-            }
-            // Set player's sprite to the selected one.
-            player.sprite = this.sprite;
+            player.start();
             break;
         case 'move':
             // Check witch button was hovered by the mouse.
@@ -372,15 +380,7 @@ Dialog.prototype.handleInput = function(keyType, mousePos) {
                 case 'actionBtn':
                     // Close the dialog and start the game.
                     this.isActive = false;
-                    if (player.lives > 0) {
-                        player.isActive = true;
-                    } else if (player.lives <= 0) {
-                        player.lives = 3;
-                        player.score = 0;
-                        player.isActive = true;
-                    }
-                    // Set player's sprite to the selected one.
-                    player.sprite = this.sprite;
+                    player.start();
                     // Set the buttons sprite to default.
                     this.button = 'images/button.png';
                     break;
