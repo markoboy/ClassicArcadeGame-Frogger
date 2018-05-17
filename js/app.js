@@ -270,6 +270,7 @@ const Dialog = function(type) {
     this.rightArrow = 'images/right-arrow.png';
     this.leftArrow = 'images/left-arrow.png';
     this.button = 'images/button.png';
+    this.button_menu = 'images/button.png';
 
     // Set arrows and button location.
     this.r_arrow_x = 315;
@@ -280,7 +281,7 @@ const Dialog = function(type) {
     this.btn_y = 400;
 
     // Set buttons text and text location.
-    this.btn_text = 'Play';
+    this.btn_text = 'Start';
     this.btn_text_y = this.btn_y + 25;
 
     // Set text locaction in center of canvas.
@@ -306,6 +307,8 @@ Dialog.prototype.render = function() {
             // Draw arrows.
             ctx.drawImage(Resources.get(this.rightArrow), this.r_arrow_x, this.arrow_y);
             ctx.drawImage(Resources.get(this.leftArrow), this.l_arrow_x, this.arrow_y);
+            // Set button's text to start.
+            this.btn_text = 'Start';
             break;
         case 'gameOver':
             // Draw game-over title.
@@ -317,6 +320,12 @@ Dialog.prototype.render = function() {
 
             // Draw score accomplished.
             ctx.fillText(`Score: ${scoreboard.score}`, this.text_x, 287);
+            // Set button text to restart.
+            this.btn_text = 'Restart';
+            // Draw a main menu button.
+            ctx.drawImage(Resources.get(this.button_menu), this.btn_x, this.btn_y + 50);
+            // Draw main menu button's text.
+            ctx.fillText('Menu', this.text_x, this.btn_text_y + 50);
             break;
     }
 
@@ -359,6 +368,9 @@ Dialog.prototype.handleInput = function(keyType, mousePos) {
         case 'move':
             // Check witch button was hovered by the mouse.
             switch (mouseOver) {
+                case 'menuBtn':
+                    this.button_menu = 'images/button-hover.png';
+                    break;
                 case 'actionBtn':
                     this.button = 'images/button-hover.png';
                     break;
@@ -372,6 +384,7 @@ Dialog.prototype.handleInput = function(keyType, mousePos) {
                     this.rightArrow = 'images/right-arrow.png';
                     this.leftArrow = 'images/left-arrow.png';
                     this.button = 'images/button.png';
+                    this.button_menu = 'images/button.png';
             }
             break;
         case 'click':
@@ -383,6 +396,10 @@ Dialog.prototype.handleInput = function(keyType, mousePos) {
                     player.start();
                     // Set the buttons sprite to default.
                     this.button = 'images/button.png';
+                    break;
+                case 'menuBtn' :
+                    // Change the dialog screen to starting screen.
+                    this.type = 'starting';
                     break;
                 case 'leftArr':
                     // Change player selection sprite.
@@ -402,13 +419,14 @@ Dialog.prototype.handleInput = function(keyType, mousePos) {
 Dialog.prototype.getButtonPressed = function(mousePos) {
     // Check if mouse is over the action button.
     let actionBtn = checkCollisions(mousePos, this.btn_x, this.btn_y, 138, 33);
+    let menuBtn = checkCollisions(mousePos, this.btn_x, this.btn_y + 50, 138, 33);
 
     // Check if mouse is over the arrows.
     let leftArrowBtn = checkCollisions(mousePos, this.l_arrow_x, this.arrow_y, 31, 31);
     let rightArrowBtn = checkCollisions(mousePos, this.r_arrow_x, this.arrow_y, 31, 31);
 
     // Return a string with what button was in collision with the mouse.
-    return actionBtn ? 'actionBtn' : leftArrowBtn ? 'leftArr' : rightArrowBtn ? 'rightArr' : undefined;
+    return actionBtn ? 'actionBtn' : menuBtn ? 'menuBtn' : leftArrowBtn ? 'leftArr' : rightArrowBtn ? 'rightArr' : undefined;
 }
 
 // Check if two objects have collided.
