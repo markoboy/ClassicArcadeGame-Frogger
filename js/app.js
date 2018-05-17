@@ -495,8 +495,10 @@ document.addEventListener('keyup', function(e) {
     };
 
     // Check if player is allowed to move.
-    if (player.isActive)
+    if (player.isActive) {
+        e.preventDefault();
         player.handleInput(allowedKeys[e.keyCode]);
+    }
 
     // Check if dialog is active in order to handle keyboard shortcuts.
     if (dialog.isActive)
