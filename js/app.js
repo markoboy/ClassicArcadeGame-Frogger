@@ -298,6 +298,7 @@ Dialog.prototype.render = function() {
     switch (this.type) {
         case 'starting':
             // Draw header text.
+            ctx.font = 'bold 25px courier';
             ctx.fillText('Classic Arcade Game: Frogger', this.text_x, 120);
             ctx.fillText('Please choose your character:', this.text_x, 155);
 

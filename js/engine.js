@@ -153,14 +153,17 @@ var Engine = (function(global) {
             enemy.render();
         });
 
-        player.render();
-
-        // Render the scoreboard.
-        scoreboard.render();
-
-        // Render the dialog box.
-        if (dialog.isActive)
+        // Render the dialog box if it is active else render the player and
+        // the scoreboard.
+        if (dialog.isActive) {
             dialog.render();
+        } else {
+            // Render the player.
+            player.render();
+
+            // Render the scoreboard.
+            scoreboard.render();
+        }
     }
 
     /* This function does nothing but it could have been a good place to
