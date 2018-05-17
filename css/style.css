@@ -1,3 +1,89 @@
+/* General tags styling */
+html {
+    height: 100%;
+}
+
+p {
+    padding: 0;
+    margin: 0;
+}
+
 body {
     text-align: center;
+    min-height: 100%;
+    padding: 0;
+    margin: 0;
+
+    background: repeating-linear-gradient(135deg, rgba(0, 0, 0, 0.05) 1%, rgba(255, 255, 255, 0.05) 2%);
+    background-attachment: fixed;
+
+    /* Display body as flexbox to add a footer */
+    display: flex;
+    flex-flow: column;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: center;
+}
+
+main {
+    text-align: left;
+    flex-grow: 1;
+    order: 1;
+    max-width: 600px;
+}
+
+canvas {
+    order: 0;
+    flex-shrink: 0;
+}
+
+/* Footer styles */
+footer {
+    order: 2;
+    flex-shrink: 0;
+    margin: 5px 5px 0;
+    width: 100%;
+
+    background: repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.1) 1%, rgba(0, 0, 0, 0.1) 2%);
+    border-top: 2px solid grey;
+    justify-content: center;
+
+    /* Make footer into a flexbox. */
+    display: flex;
+    flex-wrap: nowrap;
+}
+
+.copyright {
+    align-self: center;
+    text-align: right;
+    width: 55%;
+    padding: 5px;
+}
+
+.social {
+    width: 45%;
+    align-self: center;
+    padding: 5px 5px 5px 55px;
+    text-align: left;
+}
+
+.social a {
+    padding-left: 10px;
+}
+
+/* Hyperlinks styling */
+a, a:visited {
+    color: blue;
+    text-decoration: none;
+}
+
+.text_link:hover {
+    color: darkblue;
+    text-decoration: underline;
+    font-size: 105%;
+}
+
+.fa:hover {
+    color: darkblue;
+    transform: scale(1.3);
 }
